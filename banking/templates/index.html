@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TSF Bank</title>
+    <link rel="shortcut icon" href="{% static 'images/bankicon.jpg' %}" type="image/jpg">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@1,300&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+
+        <img src="{% static 'images/bank_image.jpg' %}" alt="loading" class="header_image">
+        <div id="time">
+        </div>
+        <div class="menu">
+            <nav class="navmenu">
+                <ul>
+                    <li class="item"><a href="#">Home</a></li>
+                    <li class="item"><a href="#send_receive">Send Money</a></li>
+                    <li class="item"><a href="#history">Transaction History</a></li>
+                    <li class="item"><a href="#customers">Our Beloved Customers</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <hr>
+    <main>
+        <div class="maincontainer">
+            <img src="{% static 'images/main.jpg' %}" class="front_image" alt="network_error">
+            <div class="textoverimg">
+                <h1>TSF Bank Welcomes You!!</h1>
+            </div>
+        </div>
+        <hr>
+
+        <div id="send_receive">
+            <form action="/" method="post" class="form-send-receive">
+                {% csrf_token %}
+                <div class="send">
+                    <h1 class="sender">Sender's Detail</h1>
+
+                    <label for="sname">Name:</label>
+                    <div class="name">
+                        <input required type="text" id="sname" name="sender_name" placeholder="Enter full name">
+                    </div>
+
+                    <label for="semail">Email:</label>
+                    <div class="mail">
+                        <input required type="email" name="sender_email" id="semail" placeholder="Enter email">
+                    </div>
+
+                    <label for="amount">Amount:</label>
+                    <div class="amount">
+                        <input required type="number" name="amount_to_pay" id="amount" placeholder="Enter amount">
+                    </div>
+                </div>
+
+                <button type="submit" id="btn">Proceed To Pay</button>
+
+
+                <div class="receive">
+                    <h1 class="receiver">Receiver's Detail</h1>
+
+                    <label for="rname">Name:</label>
+
+                    <div class="r_name">
+                        <input required type="text" placeholder="Enter full name" name="receiver_name" id="rname">
+                    </div>
+
+                    <label for="remail">Email:</label>
+
+                    <div class="r_email">
+                        <input required type="email" name="receiver_email" id="remail" placeholder="Enter email">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr>
+        <div id="history">
+            <h1>Transaction History</h1>
+            <table id="historytable">
+                <tr>
+                    <th>Sender's Name</th>
+                    <th>Sender's Email</th>
+                    <th>Amount paid</th>
+                    <th>Paid to</th>
+
+
+                </tr>
+                {% for payment in payments %}
+                <tr>
+                    <td>{{payment.sender_name}}</td>
+                    <td>{{payment.sender_email}}</td>
+                    <td>{{payment.amount}}</td>
+                    <td>{{payment.receiver_name}}</td>
+                </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+        <hr>
+        <div id="customers">
+            <h1>Our Customers</h1>
+            <table id="customertable">
+                <tr>
+                    <th>Customer Name</th>
+                    <th>Customer Email</th>
+
+                </tr>
+                {% for payment in payments %}
+                <tr>
+                    <td>{{payment.receiver_name}}</td>
+                     
+                    <td>{{payment.receiver_email}}</td>
+                     
+                </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+
+    </main>
+    <footer>
+        <div>
+            <pre>&copy; 2022 || SACHIN SINGH</pre>
+        </div>
+    </footer>
+    <script src="{% static 'js/index.js' %}"></script>
+</body>
+
+</html>
